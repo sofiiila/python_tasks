@@ -12,12 +12,12 @@ def endless_cycle():
         print(angle)
         if angle > 90:
             for _ in range(5):
-                print('Ку-ка-реку', end=' ')
+                print('больше 90', end=' ')
         elif 150 < angle < 180:
             for _ in range(10):
-                print("хрю-хрю", end=" ")
+                print("150-180", end=" ")
         else:
-            print("пук" * 3)
+            print("остальные" * 3)
 
         time.sleep(variable_value(value_massive=range(1, 4)))  # пауза на случайное время в интервале от 1 до 3 секунд
 

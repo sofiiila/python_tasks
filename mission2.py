@@ -23,23 +23,30 @@ def get_query():
     response = requests.get(url, headers=headers, params=params)
     return response.json()
 
-def find_next_train():
-    query = get_query()
-    trains = query['segments']
-    now = datetime.now()
-    next_train = None
+# ? где типизация
+def find_next_train() -> str:
+    query: dict = get_query()
+    # ? какой тип данных возвращает
+    trains: list[dict] = query['segments']
+    now: datetime.datetime = datetime.now()
+    # Зачем?
+    next_train: None | dict = None
+ 
     for train in trains:
-        train_datetime = datetime.strptime(train["departure"].split("+")[0], "%Y-%m-%dT%H:%M:%S")
+        # ?
+        train_departure: str = train["departure"]
+        train_datetime: datetime.datetime = datetime.strptime(train_departure.split("+")[0], "%Y-%m-%dT%H:%M:%S")
         if train_datetime > now + timedelta(minutes=20):
             next_train = train
             break
 
     if next_train:
-        route = next_train["thread"]["title"]
+        route: str = next_train["thread"]["title"]
         departure_time = datetime.strptime(next_train["departure"].split("+")[0], "%Y-%m-%dT%H:%M:%S").strftime("%H:%M")
-        result = f"{departure_time} - {route}"
+        result: str = f"{departure_time} - {route}"
         return result
     else:
         return "Нет доступных электричек с запасом в 20 минут"
-result = find_next_train()
+
+result: str = find_next_train()
 print(result)
